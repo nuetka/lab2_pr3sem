@@ -1,4 +1,4 @@
-#include "Header.h"
+п»ї#include "Header.h"
 
 int num_tracks = 0;
 Track* tracks = (Track*)malloc(0 * sizeof(Track));
@@ -22,7 +22,7 @@ void iniz_track() {
     MAX_TRACKS += 1;
     Track* new_tracks = (Track*)realloc(tracks, MAX_TRACKS * sizeof(Track));
     if (new_tracks == NULL) {
-        printf("Ошибка выделения памяти\n");
+        printf("РћС€РёР±РєР° РІС‹РґРµР»РµРЅРёСЏ РїР°РјСЏС‚Рё\n");
         exit(1);
     }
     tracks = new_tracks;
@@ -31,13 +31,13 @@ void iniz_track() {
 void input_track() {
     iniz_track();
     Track new_track;
-    printf("Введите название трека: ");
+    printf("Р’РІРµРґРёС‚Рµ РЅР°Р·РІР°РЅРёРµ С‚СЂРµРєР°: ");
     scanf("%s", new_track.name);
     while (getchar() != '\n');
-    printf("Введите продолжительность трека (в секундах): ");
+    printf("Р’РІРµРґРёС‚Рµ РїСЂРѕРґРѕР»Р¶РёС‚РµР»СЊРЅРѕСЃС‚СЊ С‚СЂРµРєР° (РІ СЃРµРєСѓРЅРґР°С…): ");
     scanf("%d", &new_track.duration);
     while (getchar() != '\n');
-    printf("Введите жанр трека: ");
+    printf("Р’РІРµРґРёС‚Рµ Р¶Р°РЅСЂ С‚СЂРµРєР°: ");
     scanf("%s", new_track.genre);
     while (getchar() != '\n');
 
@@ -46,9 +46,9 @@ void input_track() {
 }
 
 void output_track() {
-    printf("Созданные треки:\n");
+    printf("РЎРѕР·РґР°РЅРЅС‹Рµ С‚СЂРµРєРё:\n");
     for (int i = 0; i < num_tracks; i++) {
-        printf("%d. %s - %d сек. (%s)\n", i + 1, tracks[i].name, tracks[i].duration, tracks[i].genre);
+        printf("%d. %s - %d СЃРµРє. (%s)\n", i + 1, tracks[i].name, tracks[i].duration, tracks[i].genre);
     }
 }
 
@@ -58,7 +58,7 @@ void iniz_album() {
 
     Album* new_albums = (Album*)realloc(albums, MAX_ALBUMS * sizeof(Album));
     if (new_albums == NULL) {
-        printf("Ошибка выделения памяти\n");
+        printf("РћС€РёР±РєР° РІС‹РґРµР»РµРЅРёСЏ РїР°РјСЏС‚Рё\n");
         exit(1);
     }
     albums = new_albums;
@@ -67,36 +67,36 @@ void iniz_album() {
 void input_album() {
     iniz_album();
     if (num_tracks == 0) {
-        printf("Недостаточно треков");
+        printf("РќРµРґРѕСЃС‚Р°С‚РѕС‡РЅРѕ С‚СЂРµРєРѕРІ");
         return;
     }
     Album new_album;
     int count, num;
-    printf("Введите название альбома: ");
+    printf("Р’РІРµРґРёС‚Рµ РЅР°Р·РІР°РЅРёРµ Р°Р»СЊР±РѕРјР°: ");
     scanf("%s", new_album.name);
     while (getchar() != '\n');
-    printf("Введите год выпуска: ");
+    printf("Р’РІРµРґРёС‚Рµ РіРѕРґ РІС‹РїСѓСЃРєР°: ");
     scanf("%d", &new_album.year);
     while (getchar() != '\n');
-    printf("Введите исполнителя: ");
+    printf("Р’РІРµРґРёС‚Рµ РёСЃРїРѕР»РЅРёС‚РµР»СЏ: ");
     scanf("%s", new_album.artist);
     while (getchar() != '\n');
     do {
-        printf("Введите количество треков:\n");
+        printf("Р’РІРµРґРёС‚Рµ РєРѕР»РёС‡РµСЃС‚РІРѕ С‚СЂРµРєРѕРІ:\n");
 
         scanf("%d", &count);
         if (count > num_tracks) {
-            printf("Нет столько треков");
+            printf("РќРµС‚ СЃС‚РѕР»СЊРєРѕ С‚СЂРµРєРѕРІ");
         }
         while (getchar() != '\n');
     } while (count > num_tracks);
  
-    printf("Введите номера треков:\n");
+    printf("Р’РІРµРґРёС‚Рµ РЅРѕРјРµСЂР° С‚СЂРµРєРѕРІ:\n");
     output_track();
 
     new_album.a_tracks = (Track*)malloc(count * sizeof(Track));
     if (new_album.a_tracks == NULL) {
-        printf("Ошибка выделения памяти\n");
+        printf("РћС€РёР±РєР° РІС‹РґРµР»РµРЅРёСЏ РїР°РјСЏС‚Рё\n");
         exit(1);
     }
 
@@ -112,11 +112,11 @@ void input_album() {
 }
 
 void output_album() {
-    printf("Список альбомов:\n");
+    printf("РЎРїРёСЃРѕРє Р°Р»СЊР±РѕРјРѕРІ:\n");
     for (int i = 0; i < num_albums; i++) {
         printf("%d. %s(%d) - %s\n", i + 1, albums[i].name, albums[i].year, albums[i].artist);
         for (int j = 0; j < albums[i].track_count; j++) {
-            printf("\t%d. %s - %d сек. (%s)\n", j + 1, albums[i].a_tracks[j].name, albums[i].a_tracks[j].duration, albums[i].a_tracks[j].genre);
+            printf("\t%d. %s - %d СЃРµРє. (%s)\n", j + 1, albums[i].a_tracks[j].name, albums[i].a_tracks[j].duration, albums[i].a_tracks[j].genre);
         }
     }
 }
@@ -127,7 +127,7 @@ void iniz_playlist() {
 
     Playlist* new_playlists = (Playlist*)realloc(playlists, MAX_PLAYLISTS * sizeof(Playlist));
     if (new_playlists == NULL) {
-        printf("Ошибка выделения памяти\n");
+        printf("РћС€РёР±РєР° РІС‹РґРµР»РµРЅРёСЏ РїР°РјСЏС‚Рё\n");
         exit(1);
     }
     playlists = new_playlists;
@@ -137,31 +137,31 @@ void iniz_playlist() {
 void input_playlist() {
     iniz_playlist();
     if (num_tracks == 0) {
-        printf("Недостаточно треков");
+        printf("РќРµРґРѕСЃС‚Р°С‚РѕС‡РЅРѕ С‚СЂРµРєРѕРІ");
         return;
     }
     Playlist new_playlist;
     int count, num;
-    printf("Введите название плейлиста: ");
+    printf("Р’РІРµРґРёС‚Рµ РЅР°Р·РІР°РЅРёРµ РїР»РµР№Р»РёСЃС‚Р°: ");
     scanf("%s", new_playlist.name);
     while (getchar() != '\n');
 
     do {
-        printf("Введите количество треков:\n");
+        printf("Р’РІРµРґРёС‚Рµ РєРѕР»РёС‡РµСЃС‚РІРѕ С‚СЂРµРєРѕРІ:\n");
 
         scanf("%d", &count);
         while (getchar() != '\n');
 
         if (num_tracks < count) {
-            printf("Ошибка");
+            printf("РћС€РёР±РєР°");
         }
     } while (num_tracks < count);
-    printf("Введите номера треков:\n");
+    printf("Р’РІРµРґРёС‚Рµ РЅРѕРјРµСЂР° С‚СЂРµРєРѕРІ:\n");
     output_track();
 
     new_playlist.tracks = (Track*)malloc(count * sizeof(Track));
     if (new_playlist.tracks == NULL) {
-        printf("Ошибка выделения памяти\n");
+        printf("РћС€РёР±РєР° РІС‹РґРµР»РµРЅРёСЏ РїР°РјСЏС‚Рё\n");
         exit(1);
     }
 
@@ -179,11 +179,11 @@ void input_playlist() {
 
 void output_playlist() {
 
-    printf("Список плейлистов:\n");
+    printf("РЎРїРёСЃРѕРє РїР»РµР№Р»РёСЃС‚РѕРІ:\n");
     for (int i = 0; i < num_playlists; i++) {
         printf("%d. %s\n", i + 1, playlists[i].name);
         for (int j = 0; j < playlists[i].track_count; j++) {
-            printf("\t%d. %s - %d сек. (%s)\n", j + 1, playlists[i].tracks[j].name, playlists[i].tracks[j].duration, playlists[i].tracks[j].genre);
+            printf("\t%d. %s - %d СЃРµРє. (%s)\n", j + 1, playlists[i].tracks[j].name, playlists[i].tracks[j].duration, playlists[i].tracks[j].genre);
         }
     }
 
@@ -196,7 +196,7 @@ void iniz_artist() {
 
     Artist* new_artists = (Artist*)realloc(artists, MAX_ARTISTS * sizeof(Artist));
     if (new_artists == NULL) {
-        printf("Ошибка выделения памяти\n");
+        printf("РћС€РёР±РєР° РІС‹РґРµР»РµРЅРёСЏ РїР°РјСЏС‚Рё\n");
         exit(1);
     }
     artists = new_artists;
@@ -206,28 +206,28 @@ void iniz_artist() {
 void input_artist() {
     iniz_artist();
     if (num_albums == 0) {
-        printf("Ошибка");
+        printf("РћС€РёР±РєР°");
         return;
     }
     Artist new_artist;
     int count;
 
-    printf("Введите имя исполнителя: ");
+    printf("Р’РІРµРґРёС‚Рµ РёРјСЏ РёСЃРїРѕР»РЅРёС‚РµР»СЏ: ");
     scanf("%s", new_artist.name);
     while (getchar() != '\n');
 
     do {
-        printf("Введите количество альбомов:\n");
+        printf("Р’РІРµРґРёС‚Рµ РєРѕР»РёС‡РµСЃС‚РІРѕ Р°Р»СЊР±РѕРјРѕРІ:\n");
         scanf("%d", &count);
         while (getchar() != '\n');
     } while (count>num_albums);
     new_artist.albums = (Album*)malloc(count * sizeof(Album));
     if (new_artist.albums == NULL) {
-        printf("Ошибка выделения памяти\n");
+        printf("РћС€РёР±РєР° РІС‹РґРµР»РµРЅРёСЏ РїР°РјСЏС‚Рё\n");
         exit(1);
     }
 
-    printf("Выберите альбомы для исполнителя %s:\n", new_artist.name);
+    printf("Р’С‹Р±РµСЂРёС‚Рµ Р°Р»СЊР±РѕРјС‹ РґР»СЏ РёСЃРїРѕР»РЅРёС‚РµР»СЏ %s:\n", new_artist.name);
     output_album();
     for (int i = 0; i < count; i++) {
         int num;
@@ -242,13 +242,13 @@ void input_artist() {
 }
 
 void output_artist() {
-    printf("Список исполнителей:\n");
+    printf("РЎРїРёСЃРѕРє РёСЃРїРѕР»РЅРёС‚РµР»РµР№:\n");
     for (int i = 0; i < num_artists; i++) {
         printf("%d. %s\n", i + 1, artists[i].name);
         for (int j = 0; j < artists[i].album_count; j++) {
             printf("\t%d. %s(%d) - %s\n", j + 1, artists[i].albums[j].name, artists[i].albums[j].year, artists[i].albums[j].artist);
             for (int k = 0; k < artists[i].albums[j].track_count; k++) {
-                printf("\t\t%d. %s - %d сек. (%s)\n", k + 1, artists[i].albums[j].a_tracks[k].name, artists[i].albums[j].a_tracks[k].duration, artists[i].albums[j].a_tracks[k].genre);
+                printf("\t\t%d. %s - %d СЃРµРє. (%s)\n", k + 1, artists[i].albums[j].a_tracks[k].name, artists[i].albums[j].a_tracks[k].duration, artists[i].albums[j].a_tracks[k].genre);
             }
         }
     }
@@ -260,7 +260,7 @@ void iniz_library() {
 
     Library* new_libs = (Library*)realloc(libs, num_libs * sizeof(Library));
     if (new_libs == NULL) {
-        printf("Ошибка выделения памяти\n");
+        printf("РћС€РёР±РєР° РІС‹РґРµР»РµРЅРёСЏ РїР°РјСЏС‚Рё\n");
         exit(1);
     }
     libs = new_libs;
@@ -274,13 +274,13 @@ void input_library() {
     Library new_lib;
 
     do {
-        printf("Введите количество альбомов для библиотеки:\n");
+        printf("Р’РІРµРґРёС‚Рµ РєРѕР»РёС‡РµСЃС‚РІРѕ Р°Р»СЊР±РѕРјРѕРІ РґР»СЏ Р±РёР±Р»РёРѕС‚РµРєРё:\n");
         scanf("%d", &new_lib.album_count);
         while (getchar() != '\n');
     } while (new_lib.album_count > num_albums);
 
     new_lib.albums = (Album*)malloc(new_lib.album_count * sizeof(Album));
-    printf("Выберите альбомы для библиотеки:\n");
+    printf("Р’С‹Р±РµСЂРёС‚Рµ Р°Р»СЊР±РѕРјС‹ РґР»СЏ Р±РёР±Р»РёРѕС‚РµРєРё:\n");
     output_album();
     for (int i = 0; i < new_lib.album_count; i++) {
         int num;
@@ -290,13 +290,13 @@ void input_library() {
     }
 
     do {
-        printf("Введите количество плейлистов для библиотеки:\n");
+        printf("Р’РІРµРґРёС‚Рµ РєРѕР»РёС‡РµСЃС‚РІРѕ РїР»РµР№Р»РёСЃС‚РѕРІ РґР»СЏ Р±РёР±Р»РёРѕС‚РµРєРё:\n");
         scanf("%d", &new_lib.playlist_count);
         while (getchar() != '\n');
     } while (new_lib.playlist_count > num_playlists);
 
     new_lib.playlists = (Playlist*)malloc(new_lib.playlist_count * sizeof(Playlist));
-    printf("Выберите плейлисты для библиотеки:\n");
+    printf("Р’С‹Р±РµСЂРёС‚Рµ РїР»РµР№Р»РёСЃС‚С‹ РґР»СЏ Р±РёР±Р»РёРѕС‚РµРєРё:\n");
     output_playlist();
     for (int i = 0; i < new_lib.playlist_count; i++) {
         int num;
@@ -309,30 +309,30 @@ void input_library() {
 }
 
 void output_library() {
-    printf("Список библиотек:\n");
+    printf("РЎРїРёСЃРѕРє Р±РёР±Р»РёРѕС‚РµРє:\n");
     for (int i = 0; i < num_libs; i++) {
-        printf("Библиотека %d:\n", i + 1);
+        printf("Р‘РёР±Р»РёРѕС‚РµРєР° %d:\n", i + 1);
 
-        printf("Альбомы:\n");
+        printf("РђР»СЊР±РѕРјС‹:\n");
         for (int j = 0; j < libs[i].album_count; j++) {
             printf("%d. %s(%d) - %s\n", j + 1, libs[i].albums[j].name, libs[i].albums[j].year, libs[i].albums[j].artist);
             for (int k = 0; k < libs[i].albums[j].track_count; k++) {
-                printf("\t%d. %s - %d сек. (%s)\n", k + 1, libs[i].albums[j].a_tracks[k].name, libs[i].albums[j].a_tracks[k].duration, libs[i].albums[j].a_tracks[k].genre);
+                printf("\t%d. %s - %d СЃРµРє. (%s)\n", k + 1, libs[i].albums[j].a_tracks[k].name, libs[i].albums[j].a_tracks[k].duration, libs[i].albums[j].a_tracks[k].genre);
             }
         }
 
-        printf("Плейлисты:\n");
+        printf("РџР»РµР№Р»РёСЃС‚С‹:\n");
         for (int j = 0; j < libs[i].playlist_count; j++) {
             printf("%d. %s\n", j + 1, libs[i].playlists[j].name);
             for (int k = 0; k < libs[i].playlists[j].track_count; k++) {
-                printf("\t%d. %s - %d сек. (%s)\n", k + 1, libs[i].playlists[j].tracks[k].name, libs[i].playlists[j].tracks[k].duration, libs[i].playlists[j].tracks[k].genre);
+                printf("\t%d. %s - %d СЃРµРє. (%s)\n", k + 1, libs[i].playlists[j].tracks[k].name, libs[i].playlists[j].tracks[k].duration, libs[i].playlists[j].tracks[k].genre);
             }
         }
     }
 }
 
 void add_track_to_album() {
-    printf("Выберите альбом для добавления трека:\n");
+    printf("Р’С‹Р±РµСЂРёС‚Рµ Р°Р»СЊР±РѕРј РґР»СЏ РґРѕР±Р°РІР»РµРЅРёСЏ С‚СЂРµРєР°:\n");
     output_album();
     int album_num;
     scanf("%d", &album_num);
@@ -340,7 +340,7 @@ void add_track_to_album() {
 
     Album* album = &albums[album_num - 1];
 
-    printf("Выберите трек для добавления в альбом:\n");
+    printf("Р’С‹Р±РµСЂРёС‚Рµ С‚СЂРµРє РґР»СЏ РґРѕР±Р°РІР»РµРЅРёСЏ РІ Р°Р»СЊР±РѕРј:\n");
     output_track();
     int track_num;
     scanf("%d", &track_num);
@@ -348,10 +348,10 @@ void add_track_to_album() {
 
     Track* track = &tracks[track_num - 1];
 
-    // проверка наличия трека в списке треков альбома
+    // РїСЂРѕРІРµСЂРєР° РЅР°Р»РёС‡РёСЏ С‚СЂРµРєР° РІ СЃРїРёСЃРєРµ С‚СЂРµРєРѕРІ Р°Р»СЊР±РѕРјР°
     for (int i = 0; i < album->track_count; i++) {
         if (strcmp(album->a_tracks[i].name, track->name) == 0) {
-            printf("Трек уже есть в альбоме!\n");
+            printf("РўСЂРµРє СѓР¶Рµ РµСЃС‚СЊ РІ Р°Р»СЊР±РѕРјРµ!\n");
             return;
         }
     }
@@ -359,7 +359,7 @@ void add_track_to_album() {
     album->track_count += 1;
     Track* new_tracks = (Track*)realloc(album->a_tracks, album->track_count * sizeof(Track));
     if (new_tracks == NULL) {
-        printf("Ошибка выделения памяти\n");
+        printf("РћС€РёР±РєР° РІС‹РґРµР»РµРЅРёСЏ РїР°РјСЏС‚Рё\n");
         exit(1);
     }
     album->a_tracks = new_tracks;
@@ -368,12 +368,12 @@ void add_track_to_album() {
     new_track->duration = track->duration;
     strcpy(new_track->genre, track->genre);
 
-    printf("Трек успешно добавлен в альбом!\n");
+    printf("РўСЂРµРє СѓСЃРїРµС€РЅРѕ РґРѕР±Р°РІР»РµРЅ РІ Р°Р»СЊР±РѕРј!\n");
 }
 
 
 void add_album_to_library() {
-    printf("Выберите библиотеку для добавления альбома:\n");
+    printf("Р’С‹Р±РµСЂРёС‚Рµ Р±РёР±Р»РёРѕС‚РµРєСѓ РґР»СЏ РґРѕР±Р°РІР»РµРЅРёСЏ Р°Р»СЊР±РѕРјР°:\n");
     output_library();
     int lib_num;
     scanf("%d", &lib_num);
@@ -381,7 +381,7 @@ void add_album_to_library() {
 
     Library* lib = &libs[lib_num - 1];
 
-    printf("Выберите альбом для добавления в библиотеку:\n");
+    printf("Р’С‹Р±РµСЂРёС‚Рµ Р°Р»СЊР±РѕРј РґР»СЏ РґРѕР±Р°РІР»РµРЅРёСЏ РІ Р±РёР±Р»РёРѕС‚РµРєСѓ:\n");
     output_album();
     int album_num;
     scanf("%d", &album_num);
@@ -389,10 +389,10 @@ void add_album_to_library() {
 
     Album* album = &albums[album_num - 1];
 
-    // проверка наличия альбома в списке альбомов библиотеки
+    // РїСЂРѕРІРµСЂРєР° РЅР°Р»РёС‡РёСЏ Р°Р»СЊР±РѕРјР° РІ СЃРїРёСЃРєРµ Р°Р»СЊР±РѕРјРѕРІ Р±РёР±Р»РёРѕС‚РµРєРё
     for (int i = 0; i < lib->album_count; i++) {
         if (strcmp(lib->albums[i].name, album->name) == 0 && strcmp(lib->albums[i].artist, album->artist) == 0) {
-            printf("Альбом уже есть в библиотеке!\n");
+            printf("РђР»СЊР±РѕРј СѓР¶Рµ РµСЃС‚СЊ РІ Р±РёР±Р»РёРѕС‚РµРєРµ!\n");
             return;
         }
     }
@@ -400,7 +400,7 @@ void add_album_to_library() {
     lib->album_count += 1;
     Album* new_albums = (Album*)realloc(lib->albums, lib->album_count * sizeof(Album));
     if (new_albums == NULL) {
-        printf("Ошибка выделения памяти\n");
+        printf("РћС€РёР±РєР° РІС‹РґРµР»РµРЅРёСЏ РїР°РјСЏС‚Рё\n");
         exit(1);
     }
     lib->albums = new_albums;
@@ -409,7 +409,7 @@ void add_album_to_library() {
     new_album->track_count = album->track_count;
     new_album->a_tracks = (Track*)malloc(new_album->track_count * sizeof(Track));
     if (new_album->a_tracks == NULL) {
-        printf("Ошибка выделения памяти\n");
+        printf("РћС€РёР±РєР° РІС‹РґРµР»РµРЅРёСЏ РїР°РјСЏС‚Рё\n");
         exit(1);
     }
 
@@ -422,13 +422,13 @@ void add_album_to_library() {
         strcpy(new_album->a_tracks[i].genre, album->a_tracks[i].genre);
     }
 
-    printf("Альбом успешно добавлен в библиотеку!\n");
+    printf("РђР»СЊР±РѕРј СѓСЃРїРµС€РЅРѕ РґРѕР±Р°РІР»РµРЅ РІ Р±РёР±Р»РёРѕС‚РµРєСѓ!\n");
 }
 
 void search_albums_by_year(int target_year) {
     int found_albums = 0;
 
-    printf("Альбомы, выпущенные в %d году:\n", target_year);
+    printf("РђР»СЊР±РѕРјС‹, РІС‹РїСѓС‰РµРЅРЅС‹Рµ РІ %d РіРѕРґСѓ:\n", target_year);
     for (int i = 0; i < num_albums; i++) {
         if (albums[i].year == target_year) {
             printf("%d. %s - %s\n", i + 1, albums[i].name, albums[i].artist);
@@ -437,14 +437,14 @@ void search_albums_by_year(int target_year) {
     }
 
     if (found_albums == 0) {
-        printf("Не найдено альбомов, выпущенных в %d году.\n", target_year);
+        printf("РќРµ РЅР°Р№РґРµРЅРѕ Р°Р»СЊР±РѕРјРѕРІ, РІС‹РїСѓС‰РµРЅРЅС‹С… РІ %d РіРѕРґСѓ.\n", target_year);
     }
 }
 
 void search_tracks_by_genre(char* target_genre) {
     int found_tracks = 0;
 
-    printf("Треки жанра \"%s\":\n", target_genre);
+    printf("РўСЂРµРєРё Р¶Р°РЅСЂР° \"%s\":\n", target_genre);
     for (int i = 0; i < num_tracks; i++) {
         if (strcmp(tracks[i].genre, target_genre) == 0) {
             printf("%d. %s - %s (%d)\n", i + 1, tracks[i].name, tracks[i].genre, tracks[i].duration);
@@ -453,7 +453,7 @@ void search_tracks_by_genre(char* target_genre) {
     }
 
     if (found_tracks == 0) {
-        printf("Не найдено треков жанра \"%s\".\n", target_genre);
+        printf("РќРµ РЅР°Р№РґРµРЅРѕ С‚СЂРµРєРѕРІ Р¶Р°РЅСЂР° \"%s\".\n", target_genre);
     }
 }
 
@@ -474,10 +474,10 @@ void del_track_from_album(char* track_name, char* album_name) {
 
                 albums[i].track_count--;
                 albums[i].a_tracks = (Track*)realloc(albums[i].a_tracks, albums[i].track_count * sizeof(Track));
-                printf("Трек \"%s\" был удален из альбома \"%s\".\n", track_name, album_name);
+                printf("РўСЂРµРє \"%s\" Р±С‹Р» СѓРґР°Р»РµРЅ РёР· Р°Р»СЊР±РѕРјР° \"%s\".\n", track_name, album_name);
             }
             else {
-                printf("Трек \"%s\" не найден в альбоме \"%s\".\n", track_name, album_name);
+                printf("РўСЂРµРє \"%s\" РЅРµ РЅР°Р№РґРµРЅ РІ Р°Р»СЊР±РѕРјРµ \"%s\".\n", track_name, album_name);
             }
 
             break;
