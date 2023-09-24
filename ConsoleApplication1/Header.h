@@ -7,22 +7,6 @@
 
 #define N 50
 
-//int num_tracks = 0;
-//Track* tracks = (Track*)malloc(0 * sizeof(Track));
-//
-//int num_albums = 0;
-//Album* albums = (Album*)malloc(0 * sizeof(Album));
-//
-//int num_playlists = 0;
-//Playlist* playlists = (Playlist*)malloc(0 * sizeof(Playlist));
-//
-//int num_artists = 0;
-//Artist* artists = (Artist*)malloc(0 * sizeof(Artist));
-//
-//int num_libs = 0;
-//Library* libs = (Library*)malloc(0 * sizeof(Library));
-
-
 
 typedef struct track {
     char name[N];
@@ -96,4 +80,10 @@ void add_track_to_album();
 void add_album_to_library();
 void search_albums_by_year(int target_year);
 void search_tracks_by_genre(char* target_genre);
+void del_track_from_album(char* track_name, char* album_name);
 
+void clean_tracks();
+void clean_albums();
+void clean_playlists();
+void clean_artists();
+void clean_libs();

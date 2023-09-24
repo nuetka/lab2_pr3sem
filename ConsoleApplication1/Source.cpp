@@ -29,6 +29,7 @@ void iniz_track() {
 }
 
 void input_track() {
+    iniz_track();
     Track new_track;
     printf("Введите название трека: ");
     scanf("%s", new_track.name);
@@ -64,6 +65,11 @@ void iniz_album() {
 }
 
 void input_album() {
+    iniz_album();
+    if (num_tracks == 0) {
+        printf("Недостаточно треков");
+        return;
+    }
     Album new_album;
     int count, num;
     printf("Введите название альбома: ");
@@ -75,10 +81,16 @@ void input_album() {
     printf("Введите исполнителя: ");
     scanf("%s", new_album.artist);
     while (getchar() != '\n');
-    printf("Введите количество треков:\n");
+    do {
+        printf("Введите количество треков:\n");
 
-    scanf("%d", &count);
-    while (getchar() != '\n');
+        scanf("%d", &count);
+        if (count > num_tracks) {
+            printf("Нет столько треков");
+        }
+        while (getchar() != '\n');
+    } while (count > num_tracks);
+ 
     printf("Введите номера треков:\n");
     output_track();
 
@@ -123,17 +135,27 @@ void iniz_playlist() {
 }
 
 void input_playlist() {
-
+    iniz_playlist();
+    if (num_tracks == 0) {
+        printf("Недостаточно треков");
+        return;
+    }
     Playlist new_playlist;
     int count, num;
     printf("Введите название плейлиста: ");
     scanf("%s", new_playlist.name);
     while (getchar() != '\n');
 
-    printf("Введите количество треков:\n");
+    do {
+        printf("Введите количество треков:\n");
 
-    scanf("%d", &count);
-    while (getchar() != '\n');
+        scanf("%d", &count);
+        while (getchar() != '\n');
+
+        if (num_tracks < count) {
+            printf("Ошибка");
+        }
+    } while (num_tracks < count);
     printf("Введите номера треков:\n");
     output_track();
 
@@ -182,6 +204,11 @@ void iniz_artist() {
 }
 
 void input_artist() {
+    iniz_artist();
+    if (num_albums == 0) {
+        printf("Ошибка");
+        return;
+    }
     Artist new_artist;
     int count;
 
@@ -189,10 +216,11 @@ void input_artist() {
     scanf("%s", new_artist.name);
     while (getchar() != '\n');
 
-    printf("Введите количество альбомов:\n");
-    scanf("%d", &count);
-    while (getchar() != '\n');
-
+    do {
+        printf("Введите количество альбомов:\n");
+        scanf("%d", &count);
+        while (getchar() != '\n');
+    } while (count>num_albums);
     new_artist.albums = (Album*)malloc(count * sizeof(Album));
     if (new_artist.albums == NULL) {
         printf("Ошибка выделения памяти\n");
@@ -240,12 +268,16 @@ void iniz_library() {
 
 void input_library() {
     iniz_library();
-
+    if (num_albums == 0 || num_playlists == 0) {
+        return;
+    }
     Library new_lib;
 
-    printf("Введите количество альбомов для библиотеки:\n");
-    scanf("%d", &new_lib.album_count);
-    while (getchar() != '\n');
+    do {
+        printf("Введите количество альбомов для библиотеки:\n");
+        scanf("%d", &new_lib.album_count);
+        while (getchar() != '\n');
+    } while (new_lib.album_count > num_albums);
 
     new_lib.albums = (Album*)malloc(new_lib.album_count * sizeof(Album));
     printf("Выберите альбомы для библиотеки:\n");
@@ -257,9 +289,11 @@ void input_library() {
         memcpy(&new_lib.albums[i], &albums[num - 1], sizeof(Album));
     }
 
-    printf("Введите количество плейлистов для библиотеки:\n");
-    scanf("%d", &new_lib.playlist_count);
-    while (getchar() != '\n');
+    do {
+        printf("Введите количество плейлистов для библиотеки:\n");
+        scanf("%d", &new_lib.playlist_count);
+        while (getchar() != '\n');
+    } while (new_lib.playlist_count > num_playlists);
 
     new_lib.playlists = (Playlist*)malloc(new_lib.playlist_count * sizeof(Playlist));
     printf("Выберите плейлисты для библиотеки:\n");
@@ -421,4 +455,73 @@ void search_tracks_by_genre(char* target_genre) {
     if (found_tracks == 0) {
         printf("Не найдено треков жанра \"%s\".\n", target_genre);
     }
+}
+
+void del_track_from_album(char* track_name, char* album_name) {
+    for (int i = 0; i < num_albums; i++) {
+        if (strcmp(albums[i].name, album_name) == 0) {
+            int j;
+            for (j = 0; j < albums[i].track_count; j++) {
+                if (strcmp(albums[i].a_tracks[j].name, track_name) == 0) {
+                    break;
+                }
+            }
+
+            if (j < albums[i].track_count) {
+                for (int k = j; k < albums[i].track_count - 1; k++) {
+                    albums[i].a_tracks[k] = albums[i].a_tracks[k + 1];
+                }
+
+                albums[i].track_count--;
+                albums[i].a_tracks = (Track*)realloc(albums[i].a_tracks, albums[i].track_count * sizeof(Track));
+                printf("Трек \"%s\" был удален из альбома \"%s\".\n", track_name, album_name);
+            }
+            else {
+                printf("Трек \"%s\" не найден в альбоме \"%s\".\n", track_name, album_name);
+            }
+
+            break;
+        }
+    }
+}
+
+void clean_tracks() {
+    free(tracks);
+
+}
+void clean_albums() {
+    for (int i = 0; i < num_albums; i++) {
+        free(albums[i].a_tracks);
+    }
+
+    free(albums);
+
+}
+void clean_playlists() {
+    for (int i = 0; i < num_playlists; i++) {
+        free(playlists[i].tracks);
+    }
+    free(playlists);
+
+}
+void clean_artists() {
+    for (int i = 0; i < num_artists; i++) {
+        free(artists[i].albums);
+    }
+    free(artists);
+
+}
+void clean_libs() {
+    for (int i = 0; i < num_libs; i++) {
+
+        if (libs[i].albums != NULL) {
+            free(libs[i].albums);
+        }
+        if (libs[i].playlists != NULL) {
+            free(libs[i].playlists);
+
+        }
+    }
+    free(libs);
+
 }

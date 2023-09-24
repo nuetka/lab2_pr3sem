@@ -4,15 +4,15 @@
 int main() {
     setlocale(LC_ALL, "Rus");
     printf("Инициализация и заполнение треков\n");
-    iniz_track();
+    //iniz_track();
     input_track();
 
     printf("\n");
-    iniz_track();
+    //iniz_track();
     input_track();
 
     printf("\n");
-    iniz_track();
+    //iniz_track();
     input_track();
 
     printf("\n");
@@ -24,24 +24,31 @@ int main() {
     printf("\n");
 
     printf("Инициализация и заполнение альбома\n");
-    iniz_album();
+    //iniz_album();
     input_album();
     printf("\n");
     output_album();
+
+    printf("\nУдаляем один из треков из альбома:\n");
+    char track_name[N]="LOL", album_name[N]="XEX";
+    del_track_from_album(track_name, album_name);
+    output_album();
+
     printf("\n");
     printf("Инициализация и заполнение плейлиста\n");
-    iniz_playlist();
+    //iniz_playlist();
     input_playlist();
     printf("\n");
     output_playlist();
     printf("\n");
     printf("Инициализация и заполнение исполнителя\n");
-    iniz_artist();
+   // iniz_artist();
     input_artist();
     printf("\n");
     output_artist();
     printf("\n");
     printf("Инициализация и заполнение библиотеки\n");
+    //iniz_library();
     input_library();
     printf("\n");
     output_library();
@@ -56,28 +63,11 @@ int main() {
     printf("\n");
     search_albums_by_year(2018);
 
-  
-    free(tracks);
-    for (int i = 0; i < num_albums; i++) {
-        free(albums[i].a_tracks);
-    }
-    free(albums);
-
-    for (int i = 0; i < num_playlists; i++) {
-        free(playlists[i].tracks);
-    }
-    free(playlists);
-
-    for (int i = 0; i < num_artists; i++) {
-        free(artists[i].albums);
-    }
-    free(artists);
-
-    for (int i = 0; i < num_libs; i++) {
-        free(libs[i].albums);
-        free(libs[i].playlists);
-    }
-    free(libs);
+    clean_tracks();
+    clean_albums();
+    clean_playlists();
+    clean_artists();
+    clean_libs();
 
     return 0;
 }
