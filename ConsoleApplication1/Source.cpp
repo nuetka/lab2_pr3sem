@@ -4,18 +4,21 @@ Track::Track() {
     name_ = "";
     genre_ = "";
     duration_ = 0;
+    trackCount++;
 }
 
 Track::Track(const std::string& name) {
     name_ = name;
     genre_ = "";
     duration_ = 0;
+    trackCount++;
 }
 
 Track::Track(const std::string& name, const std::string& genre, int duration) {
     name_ = name;
     genre_ = genre;
     duration_ = duration;
+    trackCount++;
 }
 
 std::string Track::getName() const { return name_; }
@@ -25,6 +28,8 @@ int Track::getDuration() const { return duration_; }
 void Track::setName(const std::string& name) { name_ = name; }
 void Track::setGenre(const std::string& genre) { genre_ = genre; }
 void Track::setDuration(int duration) { duration_ = duration; }
+int Track::getTrackCount() { return trackCount; }
+int Track::trackCount = 0;
 
 std::vector<Track> Track::findTracksByGenre(const std::vector<Track>& tracks, const std::string& genre) {
     std::vector<Track> result;

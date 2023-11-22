@@ -21,11 +21,14 @@ public:
 
     void readFromConsole();
     void printToConsole() const;
+    static int getTrackCount();
 
 private:
     std::string name_;
     std::string genre_;
     int duration_;
+
+    static int trackCount;
 };
 
 class Album {
