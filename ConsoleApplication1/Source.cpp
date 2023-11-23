@@ -21,15 +21,51 @@ Track::Track(const std::string& name, const std::string& genre, int duration) {
     trackCount++;
 }
 
+Track operator+(const Track& track1, const Track& track2) {
+    Track result = track1;
+    result.duration_ += track2.duration_;
+    return result;
+}
+
+Track operator++(Track& track, int) { // Префиксный вариант
+    Track copy = track;
+    copy.duration_++;
+    return copy;
+} 
+
+Track operator++(Track& track) { // Постфиксный вариант
+    Track copy = track;
+    track.duration_++;
+    return copy;
+}
+
+
 std::string Track::getName() const { return name_; }
 std::string Track::getGenre() const { return genre_; }
 int Track::getDuration() const { return duration_; }
+void printTrackDetails(const Track& track) {
+    std::cout << "Track name: " << track.name_
+        << ", genre: " << track.genre_
+        << ", duration: " << track.duration_ << std::endl;
+}
 
-void Track::setName(const std::string& name) { name_ = name; }
-void Track::setGenre(const std::string& genre) { genre_ = genre; }
-void Track::setDuration(int duration) { duration_ = duration; }
+
+void Track::setName(const std::string& name) {
+    if (!name.empty()) { this->name_ = name; }
+}
+
+void Track::setGenre(const std::string& genre) {
+    if (!genre.empty()) { this->genre_ = genre; }
+}
+
+void Track::setDuration(int duration) {
+    if (duration >0 )
+        this->duration_ = duration;
+}
+
 int Track::getTrackCount() { return trackCount; }
 int Track::trackCount = 0;
+
 
 std::vector<Track> Track::findTracksByGenre(const std::vector<Track>& tracks, const std::string& genre) {
     std::vector<Track> result;
@@ -39,6 +75,28 @@ std::vector<Track> Track::findTracksByGenre(const std::vector<Track>& tracks, co
         }
     }
     return result;
+}
+
+//метод возвращает значение с помощью указателя
+std::vector<Track>* Track::findTracksByGenrePointer(const std::vector<Track>& tracks, const std::string& genre)
+{
+    std::vector<Track>* result = new std::vector<Track>();
+    for (const auto& track : tracks) {
+        if (track.getGenre() == genre) {
+            result->push_back(track);
+        }
+    }
+    return result;
+}
+
+// Метод возвращает значение по ссылке
+void Track::findTracksByGenreReference(const std::vector<Track>& tracks, const std::string& genre, std::vector<Track>& result)
+{
+    for (const auto& track : tracks) {
+        if (track.getGenre() == genre) {
+            result.push_back(track);
+        }
+    }
 }
 
 void Track::readFromConsole() {

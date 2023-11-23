@@ -18,10 +18,16 @@ public:
     void setDuration(int duration);
 
     static std::vector<Track> findTracksByGenre(const std::vector<Track>& tracks, const std::string& genre);
+    static std::vector<Track>* findTracksByGenrePointer(const std::vector<Track>& tracks, const std::string& genre);
+    static void findTracksByGenreReference(const std::vector<Track>& tracks, const std::string& genre, std::vector<Track>& result);
 
     void readFromConsole();
     void printToConsole() const;
     static int getTrackCount();
+    friend Track operator+(const Track& track1, const Track& track2);
+    friend Track operator++(Track& track, int); // Префиксный вариант
+    friend Track operator++(Track& track); // Постфиксный вариант
+    friend void printTrackDetails(const Track& track);
 
 private:
     std::string name_;
