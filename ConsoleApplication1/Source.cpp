@@ -15,9 +15,22 @@ Track::Track(const std::string& name) {
 }
 
 Track::Track(const std::string& name, const std::string& genre, int duration) {
+    try {
+        if (duration < 0) {
+            throw std::invalid_argument("Duration cannot be negative");
+        }
+
+        duration_ = duration;
+
+    }
+    catch (const std::invalid_argument& e) {
+        std::cout << "Invalid duration: " << e.what() << std::endl;
+        duration_ = 0;
+    }
+
+    //  од, который должен выполнитьс€ независимо от исключени€ или его отсутстви€
     name_ = name;
     genre_ = genre;
-    duration_ = duration;
     trackCount++;
 }
 
@@ -59,8 +72,15 @@ void Track::setGenre(const std::string& genre) {
 }
 
 void Track::setDuration(int duration) {
-    if (duration >0 )
+    try {
+        if (duration < 0) {
+            throw std::invalid_argument("Duration cannot be negative");
+        }
         this->duration_ = duration;
+    }
+    catch (const std::invalid_argument& e) {
+        std::cout << "Invalid duration input: " << e.what() << std::endl;
+    }
 }
 
 int Track::getTrackCount() { return trackCount; }
@@ -132,6 +152,19 @@ Album::Album() {
 }
 
 Album::Album(const std::string& name, int year, const std::string& artist, const std::vector<Track>& tracks) {
+    try {
+        if (year < 0) {
+            throw std::invalid_argument("Year should be a non-negative integer.");
+        }
+
+        year_ = year;
+
+    }
+    catch (const std::invalid_argument& e) {
+        std::cout << "Invalid year: " << e.what() << std::endl;
+        year_ = 2000;
+    }
+   
     name_ = name;
     year_ = year;
     artist_ = artist;
@@ -151,7 +184,17 @@ std::string Album::getArtist() const { return artist_; }
 std::vector<Track> Album::getTracks() const { return tracks_; }
 
 void Album::setName(const std::string& name) { name_ = name; }
-void Album::setYear(int year) { year_ = year; }
+void Album::setYear(int year) {
+    try {
+        if (year < 0) {
+            throw std::invalid_argument("Year should be a non-negative integer.");
+        }
+        year_ = year;
+    }
+    catch (const std::invalid_argument& e) {
+        std::cout << "Invalid year input: " << e.what() << std::endl;
+    }
+}
 void Album::setArtist(const std::string& artist) { artist_ = artist; }
 void Album::setTracks(const std::vector<Track>& tracks) { tracks_ = tracks; }
 
