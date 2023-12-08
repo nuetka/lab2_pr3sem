@@ -56,12 +56,27 @@ Track operator++(Track& track) { // Постфиксный вариант
 std::string Track::getName() const { return name_; }
 std::string Track::getGenre() const { return genre_; }
 int Track::getDuration() const { return duration_; }
-void printTrackDetails(const Track& track) {
-    std::cout << "Track name: " << track.name_
-        << ", genre: " << track.genre_
-        << ", duration: " << track.duration_ << std::endl;
+void Track:: printDetails() const {
+    std::cout << "Track name: " << getName()
+        << ", genre: " << getGenre()
+        << ", duration: " << getDuration() << " сек." << std::endl;
 }
 
+std::ostream& operator <<(std::ostream& os, const Track& track)
+{
+     os << "Название трека: " << track.getName() << "\n"
+       << "Жанр: " << track.getGenre() << "\n"
+      << "Продолжительность: " << track.getDuration() << " сек." << "\n";
+      return os;
+}
+
+std::ostream& operator<<(std::ostream& os, const ExtendedTrack& extendedTrack) {
+    os << "Название трека: " << extendedTrack.getName() << "\n"
+        << "Жанр: " << extendedTrack.getGenre() << "\n"
+        << "Продолжительность: " << extendedTrack.getDuration() << " сек." << "\n"
+        << "Рейтинг: " << extendedTrack.getRating() << "\n";
+    return os;
+}
 
 void Track::setName(const std::string& name) {
     if (!name.empty()) { this->name_ = name; }
@@ -84,6 +99,7 @@ void Track::setDuration(int duration) {
 }
 
 int Track::getTrackCount() { return trackCount; }
+
 int Track::trackCount = 0;
 
 
@@ -144,6 +160,77 @@ void Track::printToConsole() const {
 }
 
 
+void Track::printTrack(const Track& track) {
+    track.printDetails(); // Это вызовет виртуальную функцию printDetails()
+}
+
+void Track::printDetailsNV() const
+{
+    std::cout << "Track name: " << getName()
+        << ", genre: " << getGenre()
+        << ", duration: " << getDuration() << " сек." << std::endl;
+}
+
+ExtendedTrack::ExtendedTrack() : Track() {
+    rating_ = 0;
+}
+
+ExtendedTrack::ExtendedTrack(const std::string& name, const std::string& genre, int duration, int rating)
+    : Track(name, genre, duration), rating_(rating) {
+}
+
+int ExtendedTrack::getRating() const {
+    return rating_;
+}
+
+void ExtendedTrack::setRating(int rating) {
+    rating_ = rating;
+}
+
+void ExtendedTrack::printProtectedFields() {
+    std::cout << "Название трека: " << name_ << std::endl;
+    std::cout << "Жанр: " << genre_ << std::endl;
+    std::cout << "Подолжительность: " << duration_ << "сек." << std::endl;
+}
+
+void ExtendedTrack::printDetails() const
+{
+    std::cout << "Track name: " << getName()
+        << ", genre: " << getGenre()
+        << ", duration: " << getDuration()
+        << ", duration: " << getRating() << " сек." << std::endl;
+}
+
+void ExtendedTrack::printDetailsNV() const
+{
+    std::cout << "Track name: " << getName()
+        << ", genre: " << getGenre()
+        << ", duration: " << getDuration()
+        << ", duration: " << getRating() << " сек." << std::endl;
+}
+
+void ExtendedTrack::readFromConsole() {
+    Track::readFromConsole();
+    std::cout << "Введите рейтинг трека: ";
+    std::cin >> rating_;
+}
+// Перегрузка оператора присваивания
+ExtendedTrack& ExtendedTrack::operator=(const Track& other) {
+    // Вызываем оператор присваивания базового класса
+    Track::operator=(other);
+
+    // Возвращаем *this для поддержки цепочечных присваиваний
+    return *this;
+}
+
+// Перегрузка метода базового класса
+void ExtendedTrack::printToConsole(bool printOnlyRating) const {
+    // Вызов метода базового класса
+    if (!printOnlyRating) {
+        Track::printToConsole();
+    }
+    std::cout << "Рейтинг трека: " << rating_ << std::endl;
+}
 Album::Album() {
     name_ = "";
     year_ = 0;
@@ -419,20 +506,6 @@ void Artist::printToConsole() const {
     }
 }
 
-Library::Library() {
-    albums_ = std::vector<Album>();
-    playlists_ = std::vector<Playlist>();
-}
-
-Library::Library(const std::vector<Album>& albums, const std::vector<Playlist>& playlists) {
-    albums_ = albums;
-    playlists_ = playlists;
-}
-
-Library::Library(const std::vector<Album>& albums) {
-    albums_ = albums;
-    playlists_ = std::vector<Playlist>();
-}
 
 std::vector<Album> Library::getAlbums() const { return albums_; }
 std::vector<Playlist> Library::getPlaylists() const { return playlists_; }
@@ -507,3 +580,4 @@ std::vector<Album> Album::findAlbumsByYear(const std::vector<Album>& albums, int
     }
     return result;
 }
+

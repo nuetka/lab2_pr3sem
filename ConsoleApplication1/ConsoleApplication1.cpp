@@ -4,47 +4,69 @@ int main() {
 
     setlocale(LC_ALL, "Rus");
 
-    std::cout << "Обработка исключения при инициализации объекта:\n";
-
-    Track track1 = Track("Song1", "Pop", -3); 
-
-    std::cout << "После ввода отрицательной продолжительности она устанавливается в 0:\n";
-
-    track1.printToConsole();
-
-    std::cout << "Обработка исключения при использовании сеттера:\n";
-    Album album;
-
+    ExtendedTrack ext_track = ExtendedTrack();
+    ext_track.readFromConsole();
+    std::cout << "Произвольный класс ExtendedTrack(protected):\n";
+    ext_track.printProtectedFields();
+    std::cout << "\nПерегрузка метода базового класса с вызовом метода базовоо класса:\n";
+    ext_track.printToConsole(false);//перегрузку метода базового класса в производном классе с вызовом метода базового класса,
+    std::cout << "\nПосле вызова конструктора базового класса в конструкторе производного класса с параметрами\n";
+    ExtendedTrack ext_track1 = ExtendedTrack("Song1", "Pop", 380,9);
+    ext_track1.printToConsole(false);
+    std::cout << "\nПрисваивание объекта базового класса объекту производного класса\nВывод с помощью операции <<\nОбъект базового класса:\n";
+    Track baseTrack("BaseSong", "Pop", 200);
+    std::cout << baseTrack;
+    ExtendedTrack extendedTrack;
+   // Присваивание объекта базового класса объекту производного класса
+    extendedTrack = baseTrack;
+    extendedTrack.setRating(4);
+    std::cout << "\nОбъект производного класса:\n";
+    std::cout << extendedTrack;
+    std::cout << "\n Вызываем виртуальную функцию через не виртуальную функцию базового класса\n";
    
-    album.setYear(-2022);
-   
+    Track::printTrack(baseTrack);          
 
-    Track trackArray[2];
-    Playlist playlistArray[2][2];
+    // Создаем объекты динамически
+    Track* baseTrackPtr = new Track("DS", "Rock", 202);
+    Track* extendedTrackPtr = new ExtendedTrack("EDS", "KPOP", 300,9);
 
-    std::cout << "\nодномерный массив треков:\n";
-    for (int i = 0; i < 2; ++i) {
-        trackArray[i].readFromConsole();
-    }
+    std::cout << "\nВызываем виртуальную функцию через указатели на динамические объекты базового и производного классов:\n";
+    baseTrackPtr->printDetails();      
+    extendedTrackPtr->printDetails();  
 
-    std::cout << "\nСозданный одномерный массив треков:\n";
-    for (auto& track : trackArray) {
-        track.printToConsole();
-    }
+    std::cout << "\nИзменение работы программы если функция не виртуальная/вывод только из базового класаа\n";
+    baseTrackPtr->printDetailsNV();
+    extendedTrackPtr->printDetailsNV();
 
-    std::cout << "\nдвумерный массив плейлистов\n";
-    for (int i = 0; i < 2; ++i) {
-        for (int j = 0; j < 2; ++j) {
-            playlistArray[i][j].readFromConsole();
-        }
-    }
+    // Освобождаем выделенную память
+    delete baseTrackPtr;
+    delete extendedTrackPtr;
 
-    std::cout << "\nСозданный двумерный массив плейлистов:\n";
-    for (int i = 0; i < 2; ++i) {
-        for (int j = 0; j < 2; ++j) {
-            playlistArray[i][j].printToConsole();
-        }
-    }
+    Movie movie = Movie("Title");
 
+    std::cout << "\nИспользование абстрактного класса\n";
+    std::cout << baseTrack.getMediaType()<<"   " << movie.getMediaType();
+
+    std::cout << "\nСинглтон\n";
+    // Получаем экземпляр синглтона
+    Library& myLibrary = Library::getInstance();
+  
+    Album album1("Альбом 1");
+    Album album2("Альбом 2");
+
+    Playlist playlist1("Плейлист 1");
+    Playlist playlist2("Плейлист 2");
+
+    // Добавляем альбомы в вектор
+    std::vector<Album> albums = { album1, album2 };
+
+    // Добавляем плейлисты в вектор
+    std::vector<Playlist> playlists = { playlist1, playlist2 };
+
+    // Устанавливаем альбомы и плейлисты в библиотеку
+    myLibrary.setAlbums(albums);
+    myLibrary.setPlaylists(playlists);
+
+    myLibrary.printToConsole();
     return 0;
 }
