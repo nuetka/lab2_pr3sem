@@ -1,72 +1,43 @@
 ﻿#include "Header.h"
+#include <algorithm>
 
 int main() {
 
     setlocale(LC_ALL, "Rus");
 
-    ExtendedTrack ext_track = ExtendedTrack();
-    ext_track.readFromConsole();
-    std::cout << "Произвольный класс ExtendedTrack(protected):\n";
-    ext_track.printProtectedFields();
-    std::cout << "\nПерегрузка метода базового класса с вызовом метода базовоо класса:\n";
-    ext_track.printToConsole(false);//перегрузку метода базового класса в производном классе с вызовом метода базового класса,
-    std::cout << "\nПосле вызова конструктора базового класса в конструкторе производного класса с параметрами\n";
-    ExtendedTrack ext_track1 = ExtendedTrack("Song1", "Pop", 380,9);
-    ext_track1.printToConsole(false);
-    std::cout << "\nПрисваивание объекта базового класса объекту производного класса\nВывод с помощью операции <<\nОбъект базового класса:\n";
-    Track baseTrack("BaseSong", "Pop", 200);
-    std::cout << baseTrack;
-    ExtendedTrack extendedTrack;
-   // Присваивание объекта базового класса объекту производного класса
-    extendedTrack = baseTrack;
-    extendedTrack.setRating(4);
-    std::cout << "\nОбъект производного класса:\n";
-    std::cout << extendedTrack;
-    std::cout << "\n Вызываем виртуальную функцию через не виртуальную функцию базового класса\n";
-   
-    Track::printTrack(baseTrack);          
+    Track tr = Track("DS", "Rock", 202);
+    Track etr = ExtendedTrack("EDS", "KPOP", 300, 9);
+    Track tr1 = Track("Mill", "Bambam", 20);
+    Track etr1 = ExtendedTrack("Akka", "Wow", 303, 9);
 
-    // Создаем объекты динамически
-    Track* baseTrackPtr = new Track("DS", "Rock", 202);
-    Track* extendedTrackPtr = new ExtendedTrack("EDS", "KPOP", 300,9);
+    std::vector<Track> tracks = { tr,etr, tr1,etr1 };
 
-    std::cout << "\nВызываем виртуальную функцию через указатели на динамические объекты базового и производного классов:\n";
-    baseTrackPtr->printDetails();      
-    extendedTrackPtr->printDetails();  
+    std::cout << "Сортировка треков по названию:\n";
+    sort(tracks.begin(), tracks.end(), [](const Track& a, const Track& b) {
+        return a.getName() < b.getName();
+        });
 
-    std::cout << "\nИзменение работы программы если функция не виртуальная/вывод только из базового класаа\n";
-    baseTrackPtr->printDetailsNV();
-    extendedTrackPtr->printDetailsNV();
+    for (const auto& tr : tracks) {
+        tr.printToConsole();
+    }
+    std::cout << "\nСортировка треков по продолжительности:\n";
+    sort(tracks.begin(), tracks.end(), [](const Track& a, const Track& b) {
+        return a.getDuration() < b.getDuration();
+        });
+    for (const auto& tr : tracks) {
+        tr.printToConsole();
+    }
 
-    // Освобождаем выделенную память
-    delete baseTrackPtr;
-    delete extendedTrackPtr;
+    std::cout << "\n Поиск треков по жанру Rock:\n";
+    std::string genreToSearch = "Rock";
 
-    Movie movie = Movie("Title");
+    // Используем std::copy_if для копирования найденных треков в новый вектор
+    std::vector<Track> foundTracks;
+    copy_if(tracks.begin(), tracks.end(), std::back_inserter(foundTracks), [genreToSearch](const Track& track) {
+        return track.getGenre() == genreToSearch;
+        });
 
-    std::cout << "\nИспользование абстрактного класса\n";
-    std::cout << baseTrack.getMediaType()<<"   " << movie.getMediaType();
-
-    std::cout << "\nСинглтон\n";
-    // Получаем экземпляр синглтона
-    Library& myLibrary = Library::getInstance();
-  
-    Album album1("Альбом 1");
-    Album album2("Альбом 2");
-
-    Playlist playlist1("Плейлист 1");
-    Playlist playlist2("Плейлист 2");
-
-    // Добавляем альбомы в вектор
-    std::vector<Album> albums = { album1, album2 };
-
-    // Добавляем плейлисты в вектор
-    std::vector<Playlist> playlists = { playlist1, playlist2 };
-
-    // Устанавливаем альбомы и плейлисты в библиотеку
-    myLibrary.setAlbums(albums);
-    myLibrary.setPlaylists(playlists);
-
-    myLibrary.printToConsole();
-    return 0;
+    for (const auto& foundTrack : foundTracks) {
+        std::cout << foundTrack << "\n";
+    }
 }
